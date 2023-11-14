@@ -61,3 +61,11 @@ LETTER = ( a | ... | z | A | ... | Z ) ;
 LOWERCASE_LETTERS = (a | ... | z) ;
 DIGIT = ( 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 ) ;
 ```
+
+## Rodando Flex (Análise Sintática)
+
+```bash
+    flex tokenizer.l
+    gcc lex.yy.c -o lexer -lfl
+    ./lexer input_file.txt
+```
