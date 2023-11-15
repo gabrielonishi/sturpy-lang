@@ -11,22 +11,44 @@ void yyerror(const char *s) {
 %}
 
 /* Token definitions */
-%token IF WHILE FUNCTION PRINT INPUT TYPE IDENTIFIER NUMBER EQ GT LT OR AND PLUS MINUS MULT DIV NOT COLON COMMA BREAKLINE TAB SPACEBAR OPEN_PARENTHESIS CLOSE_PARENTHESIS
+%token ATTRIBUTE ARROW IF WHILE DEF_FUNC PRINT INPUT TYPE LOWERCASE_IDENTIFIER UPPERCASE_IDENTIFIER NUMBER EQ GT LT OR AND PLUS MINUS MULT DIV NOT COLON COMMA BREAKLINE IDENTATION SPACEBAR OPEN_PARENTHESIS CLOSE_PARENTHESIS
 
 %start program
 
 %%
 
-program : statements
+program : 
+    statements
+    ;
+
+block :
+    BREAKLINE idented_statements BREAKLINE
     ;
 
 statements : 
-    statement BREAKLINE
+    BREAKLINE
+    | statement BREAKLINE
     | statements statement BREAKLINE
     ;
 
+idented_statements :
+    IDENTATION statement BREAKLINE
+    | IDENTATION idented_statements statement BREAKLINE
+    ;
+
 statement :
-    PRINT OPEN_PARENTHESIS bool_expression CLOSE_PARENTHESIS
+    /* vazio (λ) */ 
+    | PRINT OPEN_PARENTHESIS bool_expression CLOSE_PARENTHESIS
+    | LOWERCASE_IDENTIFIER COLON TYPE ATTRIBUTE bool_expression
+    | IF bool_expression COLON block 
+    | WHILE bool_expression COLON block
+    | DEF_FUNC LOWERCASE_IDENTIFIER OPEN_PARENTHESIS arguments CLOSE_PARENTHESIS ARROW TYPE COLON block
+    ;
+
+arguments :
+    /* vazio λ */
+    | LOWERCASE_IDENTIFIER COLON TYPE
+    | arguments COMMA LOWERCASE_IDENTIFIER COLON TYPE
     ;
 
 bool_expression :
@@ -60,10 +82,12 @@ term :
 
 factor :
     NUMBER
+    | LOWERCASE_IDENTIFIER
     | PLUS factor
     | MINUS factor
     | NOT factor
     | OPEN_PARENTHESIS bool_expression CLOSE_PARENTHESIS
+    | INPUT OPEN_PARENTHESIS CLOSE_PARENTHESIS
 %%
 
 /* Implement any necessary additional functions or actions */
