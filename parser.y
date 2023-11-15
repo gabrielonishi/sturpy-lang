@@ -22,7 +22,8 @@ program :
     ;
 
 block :
-    BREAKLINE idented_statements BREAKLINE
+    BREAKLINE
+    | BREAKLINE idented_statements
     ;
 
 statements : 
@@ -32,17 +33,21 @@ statements :
 
 idented_statements :
     IDENTATION statement BREAKLINE
-    | IDENTATION idented_statements statement BREAKLINE
+    | idented_statements IDENTATION statement BREAKLINE
     ;
 
 statement :
     /* vazio (λ) */ 
     | PRINT OPEN_PARENTHESIS bool_expression CLOSE_PARENTHESIS
-    | LOWERCASE_IDENTIFIER COLON TYPE ATTRIBUTE bool_expression
+    | assignment
     | IF bool_expression COLON block 
     | WHILE bool_expression COLON block
     | DEF_FUNC LOWERCASE_IDENTIFIER OPEN_PARENTHESIS arguments CLOSE_PARENTHESIS ARROW TYPE COLON block
     ;
+
+assignment :
+    LOWERCASE_IDENTIFIER COLON TYPE ATTRIBUTE bool_expression
+    | LOWERCASE_IDENTIFIER ATTRIBUTE bool_expression
 
 arguments :
     /* vazio λ */
@@ -87,6 +92,7 @@ factor :
     | NOT factor
     | OPEN_PARENTHESIS bool_expression CLOSE_PARENTHESIS
     | INPUT OPEN_PARENTHESIS CLOSE_PARENTHESIS
+    
 %%
 
 /* Implement any necessary additional functions or actions */

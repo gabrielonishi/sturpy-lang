@@ -39,7 +39,7 @@
 # define YY_YY_PARSER_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG 0
+# define YYDEBUG 1
 #endif
 #if YYDEBUG
 extern int yydebug;
@@ -54,31 +54,35 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    IF = 258,                      /* IF  */
-    WHILE = 259,                   /* WHILE  */
-    FUNCTION = 260,                /* FUNCTION  */
-    PRINT = 261,                   /* PRINT  */
-    INPUT = 262,                   /* INPUT  */
-    TYPE = 263,                    /* TYPE  */
-    IDENTIFIER = 264,              /* IDENTIFIER  */
-    NUMBER = 265,                  /* NUMBER  */
-    EQ = 266,                      /* EQ  */
-    GT = 267,                      /* GT  */
-    LT = 268,                      /* LT  */
-    OR = 269,                      /* OR  */
-    AND = 270,                     /* AND  */
-    PLUS = 271,                    /* PLUS  */
-    MINUS = 272,                   /* MINUS  */
-    MULT = 273,                    /* MULT  */
-    DIV = 274,                     /* DIV  */
-    NOT = 275,                     /* NOT  */
-    COLON = 276,                   /* COLON  */
-    COMMA = 277,                   /* COMMA  */
-    BREAKLINE = 278,               /* BREAKLINE  */
-    TAB = 279,                     /* TAB  */
-    SPACEBAR = 280,                /* SPACEBAR  */
-    OPEN_PARENTHESIS = 281,        /* OPEN_PARENTHESIS  */
-    CLOSE_PARENTHESIS = 282        /* CLOSE_PARENTHESIS  */
+    QUOTE = 258,                   /* QUOTE  */
+    ATTRIBUTE = 259,               /* ATTRIBUTE  */
+    ARROW = 260,                   /* ARROW  */
+    IF = 261,                      /* IF  */
+    WHILE = 262,                   /* WHILE  */
+    DEF_FUNC = 263,                /* DEF_FUNC  */
+    PRINT = 264,                   /* PRINT  */
+    INPUT = 265,                   /* INPUT  */
+    TYPE = 266,                    /* TYPE  */
+    LOWERCASE_IDENTIFIER = 267,    /* LOWERCASE_IDENTIFIER  */
+    UPPERCASE_IDENTIFIER = 268,    /* UPPERCASE_IDENTIFIER  */
+    NUMBER = 269,                  /* NUMBER  */
+    EQ = 270,                      /* EQ  */
+    GT = 271,                      /* GT  */
+    LT = 272,                      /* LT  */
+    OR = 273,                      /* OR  */
+    AND = 274,                     /* AND  */
+    PLUS = 275,                    /* PLUS  */
+    MINUS = 276,                   /* MINUS  */
+    MULT = 277,                    /* MULT  */
+    DIV = 278,                     /* DIV  */
+    NOT = 279,                     /* NOT  */
+    COLON = 280,                   /* COLON  */
+    COMMA = 281,                   /* COMMA  */
+    BREAKLINE = 282,               /* BREAKLINE  */
+    IDENTATION = 283,              /* IDENTATION  */
+    SPACEBAR = 284,                /* SPACEBAR  */
+    OPEN_PARENTHESIS = 285,        /* OPEN_PARENTHESIS  */
+    CLOSE_PARENTHESIS = 286        /* CLOSE_PARENTHESIS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
