@@ -18,4 +18,4 @@ def sum_of_evens(n:int) -> int:
         i = i + 2
     return total
 
-print(x)
+print(sum(x))
