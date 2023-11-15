@@ -11,7 +11,7 @@
 
 %%
 
-"\t"                         { printf("Token Identified: IDENTATION\n"); return IDENTATION; }
+"\t" | "    "                { printf("Token Identified: IDENTATION\n"); return IDENTATION; }
 "\n"                         { printf("Token Identified: BREAKLINE\n"); return BREAKLINE; }
 "->"                         { printf("Token Identified: ARROW\n"); return ARROW; }
 "("                          { printf("Token Identified: (\n"); return OPEN_PARENTHESIS; }
