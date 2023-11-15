@@ -52,31 +52,31 @@ arguments :
 
 bool_expression :
     bool_term
-    | bool_term OR bool_term
+    | bool_expression OR bool_term
     ;
 
 bool_term :
     relation_expression
-    | relation_expression AND relation_expression
+    | bool_term AND relation_expression
     ;
 
 relation_expression :
     expression 
-    | expression EQ expression
-    | expression GT expression 
-    | expression LT expression
+    | relation_expression EQ expression
+    | relation_expression GT expression 
+    | relation_expression LT expression
     ;
 
 expression :
     term
-    | term PLUS term
-    | term MINUS term
+    | expression PLUS term
+    | expression MINUS term
     ;
 
 term :
     factor
-    | factor MULT factor
-    | factor DIV factor
+    | term MULT factor
+    | term DIV factor
     ;
 
 factor :
