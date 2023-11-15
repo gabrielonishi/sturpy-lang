@@ -32,8 +32,13 @@ statements :
     ;
 
 idented_statements :
-    IDENTATION statement BREAKLINE
-    | idented_statements IDENTATION statement BREAKLINE
+    identations statement BREAKLINE
+    | idented_statements identations statement BREAKLINE
+    ;
+
+identations :
+    IDENTATION
+    | identations IDENTATION
     ;
 
 statement :
