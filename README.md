@@ -30,17 +30,16 @@ print(f"The sum of even numbers from 1 to {n} is {result}")
 ## EBNF
 
 ```
-EXPLANATION = "'''", "\n", {LETTER | "\n" | DIGIT}, "\n", "'''"
 PROGRAM = EXPLANATION, {STATEMENT} ;
 BLOCK = "\n", {"\t", STATEMENT}, "\n" ;
 
-STATEMENT = ( λ | PRINT | ASSIGNMENT | PRINT | IF | WHILE | FUNCTION), "\n" ;
+STATEMENT = ( λ | PRINT | ASSIGNMENT | IF | WHILE | FUNCTION), "\n" ;
 
-IF = "if", " ", BOOL_EXPRESSION, ":", BLOCK ;
-WHILE = "while", " ", BOOL_EXPRESSION, ":", BLOCK ;
-FUNCTION = "def", " ", FUNCTION_NAME, "(", IDENTIFIER, ":", VARTYPE {",", IDENTIFIER, ":", VARTYPE}, ")", " ", "->", " ", VARTYPE, ":", BLOCK ;
+IF = "if", BOOL_EXPRESSION, ":", BLOCK ;
+WHILE = "while", BOOL_EXPRESSION, ":", BLOCK ;
+FUNCTION = "def", FUNCTION_NAME, "(", IDENTIFIER, ":", VARTYPE {",", IDENTIFIER, ":", VARTYPE}, ")", "->", VARTYPE, ":", BLOCK ;
 
-ASSIGNMENT = IDENTIFIER, " ", ":", " ", VARTYPE, " ", "=", " ", BOOL_EXPRESSSION ;
+ASSIGNMENT = IDENTIFIER, ":", VARTYPE, "=", BOOL_EXPRESSSION ;
 
 BOOL_EXPRESSION = BOOL_TERM , { "or", BOOL_TERM } ;
 BOOL_TERM = RELATION_EXPRESSION , { "and", RELATION_EXPRESSION } ;
@@ -55,17 +54,25 @@ INPUT = "input", "(", ")"
 PRINT = "print", "(", BOOL_EXPRESSION, ")" ;
 
 IDENTIFIER = LETTER, {LETTER, "_"}
-FUNCTION_NAME = LOWERCASE_LETTER, { LOWERCASE_LETTER | UNDERSCORE } ;
+FUNCTION_NAME = LOWERCASE_LETTER, { LOWERCASE_LETTER | UNDERSCORE | NUMBER } ;
 NUMBER = DIGIT, { DIGIT } ;
 LETTER = ( a | ... | z | A | ... | Z ) ;
 LOWERCASE_LETTERS = (a | ... | z) ;
 DIGIT = ( 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 ) ;
 ```
 
-## Rodando Flex (Análise Sintática)
+## Rodando Flex e Bison
+
+Para gerar o executável: 
 
 ```bash
     flex tokenizer.l
-    gcc lex.yy.c -o lexer -lfl
-    ./lexer input_file.txt
+    bison -d parser.y
+    gcc -o analyzer parser.tab.c lex.yy.c -lfl
+```
+
+Rodando o executável com um arquivo de exemplo
+
+```bash
+    ./analyzer < {arquivo-de-exemplo}
 ```
