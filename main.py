@@ -11,7 +11,4 @@ if __name__ == '__main__':
     with open(file=filename, mode='r') as f:
         code_str = f.read()
     
-    print(code_str)
-    print('*'*20)
-    clean_code = prepro.PrePro.filter(code_str)
-    print(clean_code)
+    clean_code = prepro.PrePro.filter(code_str)    
