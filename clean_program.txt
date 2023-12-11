@@ -1,0 +1,25 @@
+x : int = 3
+y : int = 3 + x / 5 * (9 - 4)
+z : int = input()
+x = x + 1
+
+while x < 5:{
+print(x / z)
+}
+
+if y > 5:{
+print(100)
+}
+
+def sum_of_evens(n:int) -> int:{
+total : int = 0
+x : int = 5
+i : int = 2
+while i < n:{
+total = total + i
+i = i + 2
+}
+return total
+}
+
+print(sum(x))

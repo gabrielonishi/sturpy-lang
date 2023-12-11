@@ -47,13 +47,6 @@ class PrePro():
         return '\n'.join(clean_code)
 
     @staticmethod
-    def remove_spaces(code_str: str) -> str:
-        '''
-        Removes spaces
-        '''
-        return code_str.replace(' ', '')
-
-    @staticmethod
     def filter(source: str) -> str:
         '''
         Removes comments and adds "{" and "}"
@@ -61,7 +54,6 @@ class PrePro():
         '''
 
         no_comments_code = PrePro.clean_comments(source)
-        braced_code = PrePro.replace_indent_with_braces(no_comments_code)
-        clean_code = PrePro.remove_spaces(braced_code)
+        clean_code = PrePro.replace_indent_with_braces(no_comments_code)
         return clean_code
         

@@ -181,5 +181,8 @@ class Tokenizer:
                 case _:
                     self.next = Token(identifier, TokenType.IDENTIFIER)
                     return
+        elif next_character.isspace():
+            self.position += 1
+            self.select_next()
         else:
             raise TypeError(f'Invalid character: {next_character}')
