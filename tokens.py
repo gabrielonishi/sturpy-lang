@@ -150,10 +150,36 @@ class Tokenizer:
             while self.source[self.position].isalpha() or self.source[self.position].isnumeric() or self.source[self.position] == '_':
                 identifier += self.source[self.position]
                 self.position += 1
-            if identifier in KEYWORDS:
-                self.next = Token(identifier, TokenType.KEYWORD)
-                return
-            self.next = Token(identifier, TokenType.IDENTIFIER)
-            return
+            match identifier:
+                case 'print':
+                    self.next = Token(identifier, TokenType.PRINT)
+                    return
+                case 'input':
+                    self.next = Token(identifier, TokenType.INPUT)
+                    return
+                case 'if':
+                    self.next = Token(identifier, TokenType.IF)
+                    return
+                case 'else':
+                    self.next = Token(identifier, TokenType.ELSE)
+                    return
+                case 'while':
+                    self.next = Token(identifier, TokenType.WHILE)
+                    return
+                case 'int':
+                    self.next = Token(identifier, TokenType.VAR_TYPE)
+                    return
+                case 'str':
+                    self.next = Token(identifier, TokenType.VAR_TYPE)
+                    return
+                case 'return':
+                    self.next = Token(identifier, TokenType.RETURN)
+                    return
+                case 'def':
+                    self.next = Token(identifier, TokenType.DEF_FUNC)
+                    return
+                case _:
+                    self.next = Token(identifier, TokenType.IDENTIFIER)
+                    return
         else:
             raise TypeError(f'Invalid character: {next_character}')
