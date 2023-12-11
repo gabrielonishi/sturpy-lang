@@ -1,0 +1,6 @@
+x = 3
+if x >= 3:
+    print("Hi")
+    while x < 10:
+        x += 1
+print("Ended")
