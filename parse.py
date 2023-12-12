@@ -20,7 +20,7 @@ class Parser:
         Parser.tokenizer.select_next()
         ast = Parser.parse_program()
         if Parser.tokenizer.next.type != tokens.TokenType.EOF:
-            raise ValueError("Did not consume whole code")
+            raise SyntaxError("Did not consume whole code")
         return ast
 
     @staticmethod
@@ -36,8 +36,82 @@ class Parser:
 
     @staticmethod
     def parse_declaration() -> nodes.Node:
-        # Todo
-        return
+        if Parser.tokenizer.next.type != tokens.TokenType.DEF_FUNC:
+            raise SyntaxError("Function declaration must begin with 'def'")
+        Parser.tokenizer.select_next()
+
+        if Parser.tokenizer.next.type != tokens.TokenType.IDENTIFIER:
+            raise SyntaxError(
+                f"Expected function identifier, instead got {Parser.tokenizer.next.type}")
+        
+        func_identifier = Parser.tokenizer.next.value
+        func_identifier_node = nodes.Identifier(value=func_identifier, children=Parser.NO_CHILDREN)
+        Parser.tokenizer.select_next()
+
+        if Parser.tokenizer.next.value != "(":
+            raise SyntaxError(
+                f"Didn't open parenthesis after {func_identifier}")
+        
+        Parser.tokenizer.select_next()
+        arg_nodes = list()
+        while Parser.tokenizer.next.value != ')':
+            if Parser.tokenizer.next.type != tokens.TokenType.IDENTIFIER:
+                raise SyntaxError(
+                    f"Problem in argument declaration in {func_identifier}")
+            
+            arg_identifier = Parser.tokenizer.next.value
+            arg_identifier_node = nodes.Identifier(value=arg_identifier, children=list())
+        
+            Parser.tokenizer.select_next()
+
+            if Parser.tokenizer.next.type != tokens.TokenType.COLON:
+                raise SyntaxError("Argument in function must be followed by colon (':')")
+            Parser.tokenizer.select_next()
+
+            if Parser.tokenizer.next.type != tokens.TokenType.VAR_TYPE:
+                raise SyntaxError(
+                    f"Doesn't specify type for {arg_identifier} em {func_identifier}")
+            
+            arg_tipo = Parser.tokenizer.next.value
+            arg_var_dec = nodes.VarDec(
+                arg_tipo, children=[arg_identifier_node])
+            arg_nodes.append(arg_var_dec)
+            Parser.tokenizer.select_next()
+
+            if (Parser.tokenizer.next.type == tokens.TokenType.COLON):
+                Parser.tokenizer.select_next()
+            elif (Parser.tokenizer.next.value == ")"):
+                break
+            else:
+                raise SyntaxError(
+                    f"Declaração errada de func {func_identifier}")
+        Parser.tokenizer.select_next()
+        if Parser.tokenizer.next.type != tokens.TokenType.ARROW:
+            raise SyntaxError("Did not use arrow (->) to specify function return type")
+        Parser.tokenizer.select_next()
+        if (Parser.tokenizer.next.type != tokens.TokenType.VAR_TYPE):
+            raise SyntaxError(
+                f'Não manda tipo da variável ao declarar {arg_identifier}')
+        
+        func_return_type = Parser.tokenizer.next.value
+        func_name_var_dec = nodes.VarDec(value=func_return_type, children=[func_identifier_node])
+        Parser.tokenizer.select_next()
+
+        if Parser.tokenizer.next.type != tokens.TokenType.COLON:
+            raise ValueError("Function declaration must end with colon (':')")
+        Parser.tokenizer.select_next()
+        func_block = Parser.parse_block()
+
+        if Parser.tokenizer.next.type != tokens.TokenType.BREAKLINE:
+            raise SyntaxError("Não pula linha após block")
+        
+        Parser.tokenizer.select_next()
+        func_node = nodes.FuncDec(value=None, children=[func_name_var_dec, func_block])
+
+        for node in arg_nodes:
+            func_node.children.append(node)
+            
+        return func_node
 
     @staticmethod
     def parse_statement() -> nodes.Node:
@@ -91,7 +165,7 @@ class Parser:
         if Parser.tokenizer.next.type == tokens.TokenType.BREAKLINE:
             Parser.tokenizer.select_next()
         else:
-            raise ValueError(
+            raise SyntaxError(
                 f'ERRO EM parse_statement(): Valor {repr(Parser.tokenizer.next.value)} não esperado na posição {Parser.tokenizer.position}'
             )
         return statement
@@ -99,21 +173,21 @@ class Parser:
     @staticmethod
     def parse_block() -> nodes.Node:
         if Parser.tokenizer.next.value != "{":
-            raise ValueError(
+            raise SyntaxError(
                 "ERRO EM Parser.parse_block(): É necessário começar um novo bloco com '{'")
         Parser.tokenizer.select_next()
         if Parser.tokenizer.next.type != tokens.TokenType.BREAKLINE:
-            raise ValueError(
+            raise SyntaxError(
                 "ERRO EM Parser.parse_block(): É necessário um linebreak depois de '{'")
         Parser.tokenizer.select_next()
-        block = nodes.Block(value=None, children=[])
+        block = nodes.Block(value=None, children=Parser.NO_CHILDREN)
         statements = list()
         while Parser.tokenizer.next.value != "}":
             statement = Parser.parse_statement()
             statements.append(statement)
         block = nodes.Block(value=None, children=statements)
         if Parser.tokenizer.next.value != "}":
-            raise ValueError(
+            raise SyntaxError(
                 "ERRO EM Parser.parse_block(): Não fechou bloco com '}'")
         Parser.tokenizer.select_next()
         return block
@@ -233,7 +307,7 @@ class Parser:
                 Parser.tokenizer.select_next()
                 return expression
             else:
-                raise ValueError(
+                raise SyntaxError(
                     f'Doesn\'t close parentheses for expression {expression}')
         elif Parser.tokenizer.next.type == tokens.TokenType.IDENTIFIER:
             identifier = Parser.tokenizer.next.value
@@ -250,7 +324,7 @@ class Parser:
                     elif Parser.tokenizer.next.value == ')':
                         break
                     else:
-                        raise ValueError(f'Problema ao chamar {identifier}')
+                        raise SyntaxError(f'Problema ao chamar {identifier}')
                 Parser.tokenizer.select_next()
                 return nodes.FuncCall(value=identifier, children=args_list)
             
@@ -260,11 +334,11 @@ class Parser:
         elif Parser.tokenizer.next.type == tokens.TokenType.INPUT:
             Parser.tokenizer.select_next()
             if Parser.tokenizer.next.value != "(":
-                raise ValueError(
+                raise SyntaxError(
                     'Doesn\'t open parentheses for input')
             Parser.tokenizer.select_next()
             if Parser.tokenizer.next.value != ")":
-                raise ValueError(
+                raise SyntaxError(
                     'Doesn\'t close parentheses for input')
             Parser.tokenizer.select_next()
             node = nodes.Input(value=None, children=Parser.NO_CHILDREN)
@@ -307,7 +381,7 @@ class Parser:
                     Parser.tokenizer.select_next()
                     break
                 else:
-                    raise ValueError(f'Problem on {identifier_node} function call')
+                    raise SyntaxError(f'Problem on {identifier_node} function call')
             return nodes.FuncCall(identifier, args_list)
         else:
             raise SyntaxError(f"Next value should be '=' or '(', instead is {Parser.tokenizer.next.type})")

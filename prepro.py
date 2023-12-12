@@ -16,7 +16,7 @@ class PrePro():
                     i += 1
                     if i == len(code_str):
                         break
-                    
+
             else:
                 clean_raw += code_str[i]
                 i += 1
@@ -43,7 +43,7 @@ class PrePro():
             while line_identation < identation_level:
                 identation_level -= 1
                 clean_code.append('}')
-            
+
             if line_identation == identation_level:
                 clean_code.append(line)
 
@@ -51,17 +51,16 @@ class PrePro():
             identation_level -= 1
             clean_code.append('}')
 
-    
         return '\n'.join(clean_code)
-    
+
     @staticmethod
-    def clear_lines(code_str:str) -> str:
+    def clear_lines(code_str: str) -> str:
         lines = code_str.split('\n')
         clean_code = list()
         for line in lines:
             if line != '':
                 clean_code.append(line)
-        
+
         return '\n'.join(clean_code) + '\n'
 
     @staticmethod
@@ -76,4 +75,3 @@ class PrePro():
         clean_code = PrePro.clear_lines(braced_code)
 
         return clean_code
-        
