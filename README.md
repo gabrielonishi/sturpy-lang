@@ -30,7 +30,7 @@ print(result)
 ## EBNF
 
 ```
-PROGRAM = EXPLANATION, {STATEMENT} ;
+PROGRAM = {STATEMENT} ;
 BLOCK = "\n", {"\t", STATEMENT}, "\n" ;
 
 STATEMENT = ( λ | PRINT | ASSIGNMENT | IF | WHILE | FUNCTION), "\n" ;
