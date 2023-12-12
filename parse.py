@@ -57,6 +57,9 @@ class Parser:
         elif (Parser.tokenizer.next.type == tokens.TokenType.IF):
             Parser.tokenizer.select_next()
             condition = Parser.parse_bool_expression()
+            if Parser.tokenizer.next.type != tokens.TokenType.COLON:
+                raise SyntaxError("End of if statement must have colon (:)")
+            Parser.tokenizer.select_next()
             if_block = Parser.parse_block()
             if Parser.tokenizer.next.type == tokens.TokenType.ELSE:
                 Parser.tokenizer.select_next()

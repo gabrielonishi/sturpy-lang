@@ -5,6 +5,6 @@ z : int = input()
 while x < 5:
     print(x / z)
     x = x + 1
-#
-#if y > 5:
-#    print(100)
+
+if y > 5:
+    print(100)
