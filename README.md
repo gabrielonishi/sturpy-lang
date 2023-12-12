@@ -12,19 +12,19 @@ Apesar de ser uma das linguagens mais utilizadas no mundo, o Python possui um pr
 ## Exemplo - Soma de Pares
 
 ```python
-
 def sum_of_evens(n: int) -> int:
     total : int = 0
     i : int = 2
-    while i <= n:
+    while (i < n or i == n):
         total = total + i
         i = i + 2
     return total
 
 n : int = input()
 
-result = sum_of_evens(n)
-print(f"The sum of even numbers from 1 to {n} is {result}")
+result : int = sum_of_evens(n)
+print("The sum of evens from 0 to n is")
+print(result)
 ```
 
 ## EBNF

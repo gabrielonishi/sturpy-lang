@@ -1,0 +1,13 @@
+def sum_of_evens(n: int) -> int:
+    total : int = 0
+    i : int = 2
+    while (i < n or i == n):
+        total = total + i
+        i = i + 2
+    return total
+
+n : int = input()
+
+result : int = sum_of_evens(n)
+print("The sum of evens from 0 to n is")
+print(result)
