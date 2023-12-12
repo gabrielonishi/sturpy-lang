@@ -9,6 +9,8 @@ Apesar de ser uma das linguagens mais utilizadas no mundo, o Python possui um pr
 
  - **Formatação Obrigatória**: A formatação do documento é parte da própria linguagem SturPy. Baseado nas normas PEP8 (Python Enhancement Proposal 8), todo o código compilável é um código bem escrito.
 
+Para saber mais, veja a [apresentação da linguagem]([link_to_presentation_file](https://github.com/gabrielonishi/sturpy-lang/blob/main/sturpy-presentation.pdf))
+
 ## Exemplo - Soma de Pares
 
 ```python
