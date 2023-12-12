@@ -4,11 +4,13 @@ z : int = input()
 x = x + 1
 
 while x < 5:
-    print(x / z)
+    print(x)
+    x = x + 1
 
 if y > 5:
     print(100)
 
+test : int = 10
 def sum_of_evens(n:int) -> int:
     total : int = 0
     x : int = 5
@@ -18,4 +20,4 @@ def sum_of_evens(n:int) -> int:
         i = i + 2
     return total
 
-print(sum(x))
+print(sum_of_evens(test))

@@ -4,9 +4,15 @@ import prepro, tokens, parse, nodes
 
 if __name__ == '__main__':
     if(len(sys.argv)!=2):
-        raise SystemError("Pass a .spy file as argument")
+        raise SystemError("Pass a .spy or a .🧱 file as argument")
     
     filename = sys.argv[1]
+
+    extension = filename.split('.')[-1]
+
+    if extension != '🧱' and extension != 'spy':
+        print(extension)
+        raise SystemError("Pass a .spy or a .🧱 file as argument")
 
     with open(file=filename, mode='r') as f:
         code_str = f.read()
