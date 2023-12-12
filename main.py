@@ -1,6 +1,6 @@
 import sys
 
-import prepro, tokens
+import prepro, tokens, parse, nodes
 
 if __name__ == '__main__':
     if(len(sys.argv)!=2):
@@ -12,11 +12,9 @@ if __name__ == '__main__':
         code_str = f.read()
     
     clean_code = prepro.PrePro.filter(code_str)    
-    
-    print(clean_code)
+    print(clean_code)    
+    root = parse.Parser.run(clean_code)
+    symbol_table = nodes.SymbolTable()
+    root.evaluate(symbol_table=symbol_table)
 
-    tokenizer = tokens.Tokenizer(clean_code)
-    tokenizer.select_next()
-    while tokenizer.next.type != tokens.TokenType.EOF:
-        print(repr(tokenizer.next.value), tokenizer.next.type)
-        tokenizer.select_next()
+    

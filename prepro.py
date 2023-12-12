@@ -14,6 +14,9 @@ class PrePro():
             if code_str[i] == '#':
                 while code_str[i] != '\n':
                     i += 1
+                    if i == len(code_str):
+                        break
+                    
             else:
                 clean_raw += code_str[i]
                 i += 1
@@ -45,6 +48,16 @@ class PrePro():
                 clean_code.append(line)
     
         return '\n'.join(clean_code)
+    
+    @staticmethod
+    def clear_lines(code_str:str) -> str:
+        lines = code_str.split('\n')
+        clean_code = list()
+        for line in lines:
+            if line != '':
+                clean_code.append(line)
+        
+        return '\n'.join(clean_code) + '\n'
 
     @staticmethod
     def filter(source: str) -> str:
@@ -54,6 +67,8 @@ class PrePro():
         '''
 
         no_comments_code = PrePro.clean_comments(source)
-        clean_code = PrePro.replace_indent_with_braces(no_comments_code)
+        braced_code = PrePro.replace_indent_with_braces(no_comments_code)
+        clean_code = PrePro.clear_lines(braced_code)
+
         return clean_code
         

@@ -1,4 +1,5 @@
 from enum import Enum, auto
+from tables import VarType
 
 class TokenType(Enum):
     '''
@@ -167,10 +168,10 @@ class Tokenizer:
                     self.next = Token(identifier, TokenType.WHILE)
                     return
                 case 'int':
-                    self.next = Token(identifier, TokenType.VAR_TYPE)
+                    self.next = Token(VarType.INT, TokenType.VAR_TYPE)
                     return
                 case 'str':
-                    self.next = Token(identifier, TokenType.VAR_TYPE)
+                    self.next = Token(VarType.STRING, TokenType.VAR_TYPE)
                     return
                 case 'return':
                     self.next = Token(identifier, TokenType.RETURN)
