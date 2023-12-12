@@ -62,7 +62,12 @@ LETTER = ( a | ... | z | A | ... | Z ) ;
 LOWERCASE_LETTERS = (a | ... | z) ;
 DIGIT = ( 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 ) ;
 ```
+## Rodando o Compilador em Python
 
+Rode com um arquivo com extensão .spy ou .🧱 como argumento
+```bash
+python3 main.py test1.🧱
+```
 ## Rodando Flex e Bison
 
 Para gerar o executável: 
