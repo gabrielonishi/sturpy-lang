@@ -69,19 +69,12 @@ class Parser:
 
         elif (Parser.tokenizer.next.type == tokens.TokenType.WHILE):
             Parser.tokenizer.select_next()
-            iteration_variable = Parser.parse_assign()
-            if Parser.tokenizer.next.type != tokens.TokenType.SEMICOLON:
-                raise ValueError(
-                    "Esperava-se ';' após inicialização de variável do loop for")
-            Parser.tokenizer.select_next()
             condition = Parser.parse_bool_expression()
-            if Parser.tokenizer.next.type != tokens.TokenType.SEMICOLON:
-                raise ValueError("Esperava-se ';' após condição do loop for")
+            if Parser.tokenizer.next.type != tokens.TokenType.COLON:
+                SyntaxError('While statements must end with colon')
             Parser.tokenizer.select_next()
-            increment = Parser.parse_assign()
-            for_loop = Parser.parse_block()
-            statement = nodes.While(value=None, children=[
-                                  iteration_variable, condition, increment, for_loop])
+            block = Parser.parse_block()
+            statement = nodes.While(value=None, children=[condition, block])
 
         elif (Parser.tokenizer.next.type == tokens.TokenType.RETURN):
             Parser.tokenizer.select_next()
@@ -99,6 +92,28 @@ class Parser:
                 f'ERRO EM parse_statement(): Valor {repr(Parser.tokenizer.next.value)} não esperado na posição {Parser.tokenizer.position}'
             )
         return statement
+    
+    @staticmethod
+    def parse_block() -> nodes.Node:
+        if Parser.tokenizer.next.value != "{":
+            raise ValueError(
+                "ERRO EM Parser.parse_block(): É necessário começar um novo bloco com '{'")
+        Parser.tokenizer.select_next()
+        if Parser.tokenizer.next.type != tokens.TokenType.BREAKLINE:
+            raise ValueError(
+                "ERRO EM Parser.parse_block(): É necessário um linebreak depois de '{'")
+        Parser.tokenizer.select_next()
+        block = nodes.Block(value=None, children=[])
+        statements = list()
+        while Parser.tokenizer.next.value != "}":
+            statement = Parser.parse_statement()
+            statements.append(statement)
+        block = nodes.Block(value=None, children=statements)
+        if Parser.tokenizer.next.value != "}":
+            raise ValueError(
+                "ERRO EM Parser.parse_block(): Não fechou bloco com '}'")
+        Parser.tokenizer.select_next()
+        return block
 
     @staticmethod
     def parse_bool_expression() -> nodes.Node:
