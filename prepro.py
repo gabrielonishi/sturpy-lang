@@ -46,6 +46,11 @@ class PrePro():
             
             if line_identation == identation_level:
                 clean_code.append(line)
+
+        while identation_level > 0:
+            identation_level -= 1
+            clean_code.append('}')
+
     
         return '\n'.join(clean_code)
     
