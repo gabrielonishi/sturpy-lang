@@ -157,6 +157,20 @@ class Input(Node):
         return (int(input()), VarType.INT)
 
 
+class Print(Node):
+    '''
+    Print
+
+    value: None
+
+    children: 1
+    '''
+
+    def evaluate(self, symbol_table: SymbolTable) -> None:
+        result_value, _ = self.children[0].evaluate(symbol_table)
+        print(result_value)
+
+
 class Assignment(Node):
     '''
     Represents a variable
